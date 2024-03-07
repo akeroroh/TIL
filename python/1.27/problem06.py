@@ -3,8 +3,8 @@
 def is_id_valid(user):
     user_info = list(user['id'])
     finish_id = ''
-    for i in range(len(user_info)):
-        finish_id = user_info[i]
+    for i in user_info:
+        finish_id = i
     return finish_id.isnumeric()
         
            
