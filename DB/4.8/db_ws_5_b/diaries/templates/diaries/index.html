@@ -20,7 +20,8 @@
           <img src="{% static "diaries/default.png" %}" alt="{{ diary.picture }}">
         {% endif %}
         <p>{{ diary.content }}</p>
-        <form action="">
+        <form action="{% url "diaries:likes" diary.pk %}" method="POST">
+          {% csrf_token %}
           {% if request.user in diary.like_users.all %}
             <input type="submit" value="❤">
           {% else %}
