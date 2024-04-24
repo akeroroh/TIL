@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>이 페이지</title>
+  <style>
+    .done {
+      text-decoration: line-through;
+    }
+  </style>
+</head>
+<body>
+  <form action="/todos/">
+    <input type="text">
+    <button>Todo</button>
+  </form>
+  <ul></ul>
+
+<script>
+  const form = document.querySelector('form')
+  const ulTag = document.querySelector('ul')
+
+  function addTodo (event) {
+    event.preventDefault();
+    const input = document.querySelector('form input');
+    const todoText = input.value.trim();
+    if (!todoText) {
+      alert('할 일을 입력해주세요')
+      return
+    }
+    const liTag = document.createElement('li');
+    liTag.textContent = todoText;
+    ulTag.appendChild(liTag);
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'X';
+    liTag.appendChild(deleteButton)
+    deleteButton.addEventListener('click', ()=>{ulTag.removeChild(liTag)})
+    liTag.addEventListener('click', ()=>{liTag.classList.toggle('done')})
+    input.value = ''
+  }
+
+  form.addEventListener('submit', addTodo)
+</script>
+</body>
+</html>
