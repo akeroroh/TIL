@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>문제1. 데이터 읽어오기</h1>
+{% comment %} <table border="1">
+  <thead>
+      <tr>
+          {% for column_name in df.columns %}
+              <th>{{ column_name }}</th>
+          {% endfor %}
+      </tr>
+  </thead>
+  <tbody>
+      {% for index, row in df.iterrows %}
+          <tr>
+              {% for value in row %}
+                  <td>{{ value }}</td>
+              {% endfor %}
+          </tr>
+      {% endfor %}
+  </tbody>
+</table> {% endcomment %}
+{{df|safe}}
+
+{% endblock content %}
