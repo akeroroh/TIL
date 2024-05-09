@@ -29,58 +29,18 @@ def save_deposit_products(request):
         'topFinGrpNo': '020000',
         'pageNo': 1
     }
-    response = requests.get(url, params=params).json()
-    response2 = response.get('result')
+    response = requests.get(url, params=params).json().get('result')
 
-    # for li in response2.get('baseList'):
-    #     fin_prdt_cd = li.get('fin_prdt_cd')
-    #     existing_product = DepositProducts.objects.filter(fin_prdt_cd=fin_prdt_cd)
-    #     if existing_product:
-    #         continue
-    #     kor_co_nm = li.get('kor_co_nm')
-    #     fin_prdt_nm = li.get('fin_prdt_nm')
-    #     etc_note = li.get('etc_note')
-    #     join_deny = li.get('join_deny')
-    #     join_member = li.get('join_member')
-    #     join_way = li.get('join_way')
-    #     spcl_cnd = li.get('spcl_cnd')
-
-    #     save_data = {
-    #         'fin_prdt_cd': fin_prdt_cd,
-    #         'kor_co_nm': kor_co_nm,
-    #         'fin_prdt_nm': fin_prdt_nm,
-    #         'etc_note': etc_note,
-    #         'join_deny': join_deny,
-    #         'join_member': join_member,
-    #         'join_way': join_way,
-    #         'spcl_cnd': spcl_cnd,
-    #     }
-
-    #     serializer = DepositProductsSerializer(data=save_data)
-    #     if serializer.is_valid(raise_exception=True):
-    #         serializer.save()
-
-    for li in response2.get('optionList'):
-        fin_prdt_cd = li.get('fin_prdt_cd')
-        intr_rate_type_nm = li.get('intr_rate_type_nm')
-        intr_rate = li.get('intr_rate')
-        intr_rate2 = li.get('intr_rate2')
-        save_trm = li.get('save_trm')
-
-        product = DepositProducts.objects.get(fin_prdt_cd=fin_prdt_cd)
-        print(product)
-        save_data = {
-            'product': product,
-            'fin_prdt_cd': fin_prdt_cd,
-            'intr_rate_type_nm': intr_rate_type_nm,
-            'intr_rate': intr_rate,
-            'intr_rate2': intr_rate2,
-            'save_trm': save_trm,
-        }
-
-        serializer = DepositOptionsSerializer(data=save_data)
+    for li in response.get('baseList'):
+        serializer = DepositProductsSerializer(data=li)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
+
+    for li in response.get('optionList'):
+        serializer = DepositOptionsSerializer(data=li)
+        product = DepositProducts.objects.get(fin_prdt_cd=li.get('fin_prdt_cd'))
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(product=product)
 
     return JsonResponse({ "message": "save okay!" })
 
