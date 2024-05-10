@@ -16,12 +16,18 @@
   const router = useRouter()
 
   const submitAnswer = (quiz) => {
-    router.push({
-      name: 'answer',
-      params: { pk: quiz.pk, answer: quiz.answer },
-      query: { useranswer: useranswer.value },
-    })
+    if (window.confirm(`${useranswer.value}을/를 답안으로 제출합니다. 확실합니까?`)) {
+      router.push({
+        name: 'answer',
+        params: { pk: quiz.pk, answer: quiz.answer },
+        query: { useranswer: useranswer.value },
+      })
+    } else {
+      useranswer.value = ''
+    }
   }
+
+
   </script>
 
 <style scoped>
