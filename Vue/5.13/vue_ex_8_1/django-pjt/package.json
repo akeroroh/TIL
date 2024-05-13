@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "list": "^2.0.19",
+    "pinia-plugin-persistedstate": "^3.2.1"
+  }
+}
